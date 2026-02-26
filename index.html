@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Speech Builder</title>
+
+  <!-- PWA: 홈 화면 추가 -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Speech Builder">
+  <meta name="application-name" content="Speech Builder">
+  <meta name="theme-color" content="#2c2416">
+  <meta name="description" content="3분 영어 스피치 원고를 쉽게 만들어보세요">
+
+  <!-- PWA 아이콘 (인라인 base64 - 단일 파일) -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzJjMjQxNiIvPgogIDwhLS0gTWljIGJvZHkgLS0+CiAgPHJlY3QgeD0iMjE2IiB5PSIxMDAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxNDAiIHJ4PSI0MCIgZmlsbD0iI2M4OTczYSIvPgogIDwhLS0gQXJjIHN0YW5kIC0tPgogIDxwYXRoIGQ9Ik0xNjAgMjUwIFExNjAgMzYwIDI1NiAzNjAgUTM1MiAzNjAgMzUyIDI1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzg5NzNhIiBzdHJva2Utd2lkdGg9IjI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIFN0ZW0gLS0+CiAgPHJlY3QgeD0iMjQyIiB5PSIzNTUiIHdpZHRoPSIyOCIgaGVpZ2h0PSI2NSIgcng9IjgiIGZpbGw9IiNjODk3M2EiLz4KICA8IS0tIEJhc2UgLS0+CiAgPHJlY3QgeD0iMTgwIiB5PSI0MTIiIHdpZHRoPSIxNTIiIGhlaWdodD0iMjYiIHJ4PSIxMyIgZmlsbD0iI2M4OTczYSIvPgo8L3N2Zz4=">
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzJjMjQxNiIvPgogIDwhLS0gTWljIGJvZHkgLS0+CiAgPHJlY3QgeD0iMjE2IiB5PSIxMDAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxNDAiIHJ4PSI0MCIgZmlsbD0iI2M4OTczYSIvPgogIDwhLS0gQXJjIHN0YW5kIC0tPgogIDxwYXRoIGQ9Ik0xNjAgMjUwIFExNjAgMzYwIDI1NiAzNjAgUTM1MiAzNjAgMzUyIDI1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzg5NzNhIiBzdHJva2Utd2lkdGg9IjI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIFN0ZW0gLS0+CiAgPHJlY3QgeD0iMjQyIiB5PSIzNTUiIHdpZHRoPSIyOCIgaGVpZ2h0PSI2NSIgcng9IjgiIGZpbGw9IiNjODk3M2EiLz4KICA8IS0tIEJhc2UgLS0+CiAgPHJlY3QgeD0iMTgwIiB5PSI0MTIiIHdpZHRoPSIxNTIiIGhlaWdodD0iMjYiIHJ4PSIxMyIgZmlsbD0iI2M4OTczYSIvPgo8L3N2Zz4=">
+  <link rel="apple-touch-icon" sizes="152x152" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzJjMjQxNiIvPgogIDwhLS0gTWljIGJvZHkgLS0+CiAgPHJlY3QgeD0iMjE2IiB5PSIxMDAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxNDAiIHJ4PSI0MCIgZmlsbD0iI2M4OTczYSIvPgogIDwhLS0gQXJjIHN0YW5kIC0tPgogIDxwYXRoIGQ9Ik0xNjAgMjUwIFExNjAgMzYwIDI1NiAzNjAgUTM1MiAzNjAgMzUyIDI1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzg5NzNhIiBzdHJva2Utd2lkdGg9IjI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIFN0ZW0gLS0+CiAgPHJlY3QgeD0iMjQyIiB5PSIzNTUiIHdpZHRoPSIyOCIgaGVpZ2h0PSI2NSIgcng9IjgiIGZpbGw9IiNjODk3M2EiLz4KICA8IS0tIEJhc2UgLS0+CiAgPHJlY3QgeD0iMTgwIiB5PSI0MTIiIHdpZHRoPSIxNTIiIGhlaWdodD0iMjYiIHJ4PSIxMyIgZmlsbD0iI2M4OTczYSIvPgo8L3N2Zz4=">
+  <link rel="apple-touch-icon" sizes="120x120" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzJjMjQxNiIvPgogIDwhLS0gTWljIGJvZHkgLS0+CiAgPHJlY3QgeD0iMjE2IiB5PSIxMDAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxNDAiIHJ4PSI0MCIgZmlsbD0iI2M4OTczYSIvPgogIDwhLS0gQXJjIHN0YW5kIC0tPgogIDxwYXRoIGQ9Ik0xNjAgMjUwIFExNjAgMzYwIDI1NiAzNjAgUTM1MiAzNjAgMzUyIDI1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzg5NzNhIiBzdHJva2Utd2lkdGg9IjI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIFN0ZW0gLS0+CiAgPHJlY3QgeD0iMjQyIiB5PSIzNTUiIHdpZHRoPSIyOCIgaGVpZ2h0PSI2NSIgcng9IjgiIGZpbGw9IiNjODk3M2EiLz4KICA8IS0tIEJhc2UgLS0+CiAgPHJlY3QgeD0iMTgwIiB5PSI0MTIiIHdpZHRoPSIxNTIiIGhlaWdodD0iMjYiIHJ4PSIxMyIgZmlsbD0iI2M4OTczYSIvPgo8L3N2Zz4=">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzJjMjQxNiIvPgogIDwhLS0gTWljIGJvZHkgLS0+CiAgPHJlY3QgeD0iMjE2IiB5PSIxMDAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxNDAiIHJ4PSI0MCIgZmlsbD0iI2M4OTczYSIvPgogIDwhLS0gQXJjIHN0YW5kIC0tPgogIDxwYXRoIGQ9Ik0xNjAgMjUwIFExNjAgMzYwIDI1NiAzNjAgUTM1MiAzNjAgMzUyIDI1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzg5NzNhIiBzdHJva2Utd2lkdGg9IjI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIFN0ZW0gLS0+CiAgPHJlY3QgeD0iMjQyIiB5PSIzNTUiIHdpZHRoPSIyOCIgaGVpZ2h0PSI2NSIgcng9IjgiIGZpbGw9IiNjODk3M2EiLz4KICA8IS0tIEJhc2UgLS0+CiAgPHJlY3QgeD0iMTgwIiB5PSI0MTIiIHdpZHRoPSIxNTIiIGhlaWdodD0iMjYiIHJ4PSIxMyIgZmlsbD0iI2M4OTczYSIvPgo8L3N2Zz4=">
+  <link rel="shortcut icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMiIgZmlsbD0iIzJjMjQxNiIvPgogIDwhLS0gTWljIGJvZHkgLS0+CiAgPHJlY3QgeD0iMjE2IiB5PSIxMDAiIHdpZHRoPSI4MCIgaGVpZ2h0PSIxNDAiIHJ4PSI0MCIgZmlsbD0iI2M4OTczYSIvPgogIDwhLS0gQXJjIHN0YW5kIC0tPgogIDxwYXRoIGQ9Ik0xNjAgMjUwIFExNjAgMzYwIDI1NiAzNjAgUTM1MiAzNjAgMzUyIDI1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzg5NzNhIiBzdHJva2Utd2lkdGg9IjI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8IS0tIFN0ZW0gLS0+CiAgPHJlY3QgeD0iMjQyIiB5PSIzNTUiIHdpZHRoPSIyOCIgaGVpZ2h0PSI2NSIgcng9IjgiIGZpbGw9IiNjODk3M2EiLz4KICA8IS0tIEJhc2UgLS0+CiAgPHJlY3QgeD0iMTgwIiB5PSI0MTIiIHdpZHRoPSIxNTIiIGhlaWdodD0iMjYiIHJ4PSIxMyIgZmlsbD0iI2M4OTczYSIvPgo8L3N2Zz4=">
+  <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIlNwZWVjaCBCdWlsZGVyIiwgInNob3J0X25hbWUiOiAiU3BlZWNoIEJ1aWxkZXIiLCAiZGVzY3JpcHRpb24iOiAiM1x1YmQ4NCBcdWM2MDFcdWM1YjQgXHVjMmE0XHVkNTNjXHVjZTU4IFx1YzZkMFx1YWNlMFx1Yjk3YyBcdWMyN2RcdWFjOGMgXHViOWNjXHViNGU0XHVjNWI0XHViY2Y0XHVjMTM4XHVjNjk0IiwgInN0YXJ0X3VybCI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMyYzI0MTYiLCAidGhlbWVfY29sb3IiOiAiIzJjMjQxNiIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBMU1USWdOVEV5SWo0S0lDQThjbVZqZENCM2FXUjBhRDBpTlRFeUlpQm9aV2xuYUhROUlqVXhNaUlnY25nOUlqRXhNaUlnWm1sc2JEMGlJekpqTWpReE5pSXZQZ29nSUR3aExTMGdUV2xqSUdKdlpIa2dMUzArQ2lBZ1BISmxZM1FnZUQwaU1qRTJJaUI1UFNJeE1EQWlJSGRwWkhSb1BTSTRNQ0lnYUdWcFoyaDBQU0l4TkRBaUlISjRQU0kwTUNJZ1ptbHNiRDBpSTJNNE9UY3pZU0l2UGdvZ0lEd2hMUzBnUVhKaklITjBZVzVrSUMwdFBnb2dJRHh3WVhSb0lHUTlJazB4TmpBZ01qVXdJRkV4TmpBZ016WXdJREkxTmlBek5qQWdVVE0xTWlBek5qQWdNelV5SURJMU1DSWdabWxzYkQwaWJtOXVaU0lnYzNSeWIydGxQU0lqWXpnNU56TmhJaUJ6ZEhKdmEyVXRkMmxrZEdnOUlqSTRJaUJ6ZEhKdmEyVXRiR2x1WldOaGNEMGljbTkxYm1RaUx6NEtJQ0E4SVMwdElGTjBaVzBnTFMwK0NpQWdQSEpsWTNRZ2VEMGlNalF5SWlCNVBTSXpOVFVpSUhkcFpIUm9QU0l5T0NJZ2FHVnBaMmgwUFNJMk5TSWdjbmc5SWpnaUlHWnBiR3c5SWlOak9EazNNMkVpTHo0S0lDQThJUzB0SUVKaGMyVWdMUzArQ2lBZ1BISmxZM1FnZUQwaU1UZ3dJaUI1UFNJME1USWlJSGRwWkhSb1BTSXhOVElpSUdobGFXZG9kRDBpTWpZaUlISjRQU0l4TXlJZ1ptbHNiRDBpSTJNNE9UY3pZU0l2UGdvOEwzTjJaejQ9IiwgInNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9zdmcreG1sIn0sIHsic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIWnBaWGRDYjNnOUlqQWdNQ0ExTVRJZ05URXlJajRLSUNBOGNtVmpkQ0IzYVdSMGFEMGlOVEV5SWlCb1pXbG5hSFE5SWpVeE1pSWdjbmc5SWpFeE1pSWdabWxzYkQwaUl6SmpNalF4TmlJdlBnb2dJRHdoTFMwZ1RXbGpJR0p2WkhrZ0xTMCtDaUFnUEhKbFkzUWdlRDBpTWpFMklpQjVQU0l4TURBaUlIZHBaSFJvUFNJNE1DSWdhR1ZwWjJoMFBTSXhOREFpSUhKNFBTSTBNQ0lnWm1sc2JEMGlJMk00T1RjellTSXZQZ29nSUR3aExTMGdRWEpqSUhOMFlXNWtJQzB0UGdvZ0lEeHdZWFJvSUdROUlrMHhOakFnTWpVd0lGRXhOakFnTXpZd0lESTFOaUF6TmpBZ1VUTTFNaUF6TmpBZ016VXlJREkxTUNJZ1ptbHNiRDBpYm05dVpTSWdjM1J5YjJ0bFBTSWpZemc1TnpOaElpQnpkSEp2YTJVdGQybGtkR2c5SWpJNElpQnpkSEp2YTJVdGJHbHVaV05oY0QwaWNtOTFibVFpTHo0S0lDQThJUzB0SUZOMFpXMGdMUzArQ2lBZ1BISmxZM1FnZUQwaU1qUXlJaUI1UFNJek5UVWlJSGRwWkhSb1BTSXlPQ0lnYUdWcFoyaDBQU0kyTlNJZ2NuZzlJamdpSUdacGJHdzlJaU5qT0RrM00yRWlMejRLSUNBOElTMHRJRUpoYzJVZ0xTMCtDaUFnUEhKbFkzUWdlRDBpTVRnd0lpQjVQU0kwTVRJaUlIZHBaSFJvUFNJeE5USWlJR2hsYVdkb2REMGlNallpSUhKNFBTSXhNeUlnWm1sc2JEMGlJMk00T1RjellTSXZQZ284TDNOMlp6ND0iLCAic2l6ZXMiOiAiNTEyeDUxMiIsICJ0eXBlIjogImltYWdlL3N2Zyt4bWwifV19">
+
+  <!-- 전체화면 앱 스타일 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf7f2;
+    --warm: #f0e8d8;
+    --gold: #c8973a;
+    --deep: #2c2416;
+    --mid: #5c4a2a;
+    --light: #9c8060;
+    --green: #3d6b4f;
+    --green-light: #eef4f0;
+    --red: #8b3a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--cream);
+    color: var(--deep);
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* 홈 화면 앱 모드에서 상태바 영역 처리 */
+  #screen-topic {
+    padding-top: max(60px, env(safe-area-inset-top));
+  }
+  .select-header, .speech-header {
+    padding-top: max(24px, env(safe-area-inset-top));
+  }
+
+  /* ── SCREEN MANAGEMENT ── */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: block; }
+
+  /* ── SCREEN 1: TOPIC SELECT ── */
+  #screen-topic {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 60px 20px;
+    background: var(--deep);
+    position: relative;
+    overflow: hidden;
+  }
+  #screen-topic.active { display: flex; }
+
+  #screen-topic::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,151,58,0.15), transparent 70%);
+    pointer-events: none;
+  }
+  #screen-topic::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(61,107,79,0.2), transparent 70%);
+    pointer-events: none;
+  }
+
+  .app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--gold);
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .app-subtitle {
+    color: var(--light);
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .topic-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(200,151,58,0.25);
+    border-radius: 16px;
+    padding: 32px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .topic-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200,151,58,0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .topic-card:hover::before { opacity: 1; }
+  .topic-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(200,151,58,0.2);
+  }
+
+  .topic-icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+  .topic-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .topic-verse {
+    font-size: 0.78rem;
+    color: var(--light);
+    line-height: 1.5;
+  }
+
+  /* ── SCREEN 2: SENTENCE SELECT ── */
+  #screen-select {
+    padding: 0;
+  }
+
+  .select-header {
+    background: var(--deep);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(200,151,58,0.2);
+  }
+
+  .back-btn {
+    background: none;
+    border: 1px solid rgba(200,151,58,0.4);
+    color: var(--gold);
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .back-btn:hover { background: rgba(200,151,58,0.1); }
+
+  .header-info { flex: 1; }
+  .header-topic {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: #fff;
+  }
+  .header-verse {
+    font-size: 0.75rem;
+    color: var(--light);
+    margin-top: 2px;
+    font-style: italic;
+  }
+
+  .complete-btn {
+    background: var(--gold);
+    color: var(--deep);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .complete-btn:hover { background: #d9a848; transform: scale(1.03); }
+  .complete-btn:disabled { background: #888; cursor: not-allowed; transform: none; }
+
+  .progress-bar {
+    height: 3px;
+    background: rgba(200,151,58,0.15);
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), #e8b860);
+    transition: width 0.4s ease;
+  }
+
+  .select-body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .verse-card {
+    background: linear-gradient(135deg, var(--green), #2d5038);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .verse-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px; left: 16px;
+    font-size: 8rem;
+    font-family: 'Playfair Display', serif;
+    color: rgba(255,255,255,0.08);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .verse-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 8px;
+  }
+  .verse-text {
+    color: #fff;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .verse-ref {
+    margin-top: 10px;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    text-align: right;
+  }
+
+  .section-block {
+    margin-bottom: 36px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .section-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--deep);
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--deep);
+  }
+  .section-ko {
+    font-size: 0.78rem;
+    color: var(--light);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+  }
+
+  .section-hint {
+    font-size: 0.75rem;
+    color: var(--light);
+    margin-left: auto;
+    background: var(--warm);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .sentence-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sentence-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    background: #fff;
+    border: 2px solid #e8e0d0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .sentence-item:hover {
+    border-color: var(--gold);
+    background: #fffdf8;
+    transform: translateX(3px);
+  }
+  .sentence-item.selected {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+
+  .checkbox {
+    width: 22px; height: 22px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    background: #fff;
+  }
+  .sentence-item.selected .checkbox {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+  }
+  .checkbox::after {
+    content: '✓';
+    font-size: 13px;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .sentence-item.selected .checkbox::after { opacity: 1; }
+
+  .sentence-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--deep);
+  }
+  .sentence-item.selected .sentence-text { color: var(--green); font-weight: 500; }
+
+  /* ── SCREEN 3: SPEECH DISPLAY ── */
+  #screen-speech {
+    background: var(--cream);
+  }
+
+  .speech-header {
+    background: var(--deep);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .speech-header .header-topic { font-size: 1.2rem; }
+
+  .speech-body {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 50px 24px 80px;
+  }
+
+  .speech-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--deep);
+    margin-bottom: 8px;
+  }
+  .speech-meta {
+    font-size: 0.8rem;
+    color: var(--light);
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+  }
+
+  .speech-section {
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #e8e0d0;
+    animation: fadeUp 0.4s ease both;
+  }
+  .speech-section:last-child { border-bottom: none; }
+
+  .speech-section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .speech-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e8e0d0;
+  }
+
+  .speech-sentences p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--deep);
+    font-weight: 300;
+  }
+
+  .speech-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 50px;
+  }
+
+  .btn-outline {
+    flex: 1;
+    background: none;
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    padding: 14px;
+    border-radius: 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { background: rgba(200,151,58,0.08); }
+
+  .btn-solid {
+    flex: 1;
+    background: var(--deep);
+    border: 2px solid var(--deep);
+    color: #fff;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-solid:hover { background: var(--mid); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--deep);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    border-left: 4px solid var(--red);
+    transition: transform 0.3s ease;
+    z-index: 9999;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── RECORDER ── */
+  .recorder-panel {
+    background: var(--deep);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .recorder-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(200,151,58,0.08), transparent 60%);
+    pointer-events: none;
+  }
+
+  .recorder-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 18px;
+  }
+
+  .recorder-main {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .rec-btn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .rec-btn-idle {
+    background: var(--red);
+    box-shadow: 0 4px 20px rgba(139,58,42,0.5);
+  }
+  .rec-btn-idle:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(139,58,42,0.7);
+  }
+  .rec-btn-recording {
+    background: #c0392b;
+    animation: recPulse 1.4s ease-in-out infinite;
+  }
+  @keyframes recPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.6); }
+    50% { box-shadow: 0 0 0 14px rgba(192,57,43,0); }
+  }
+
+  .recorder-info { flex: 1; }
+
+  .rec-status {
+    font-size: 0.88rem;
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rec-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    display: none;
+  }
+  .rec-dot.active {
+    display: block;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .rec-timer {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  /* Waveform bars */
+  .waveform {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    height: 32px;
+  }
+  .wave-bar {
+    width: 3px;
+    border-radius: 2px;
+    background: rgba(200,151,58,0.3);
+    height: 6px;
+    transition: height 0.1s ease;
+  }
+  .waveform.active .wave-bar {
+    animation: waveAnim 0.8s ease-in-out infinite;
+    background: var(--gold);
+  }
+  .wave-bar:nth-child(1) { animation-delay: 0s; }
+  .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+  .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+  .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+  .wave-bar:nth-child(5) { animation-delay: 0.15s; }
+  .wave-bar:nth-child(6) { animation-delay: 0.05s; }
+  .wave-bar:nth-child(7) { animation-delay: 0.25s; }
+  .wave-bar:nth-child(8) { animation-delay: 0.35s; }
+  .wave-bar:nth-child(9) { animation-delay: 0.1s; }
+  .wave-bar:nth-child(10) { animation-delay: 0.2s; }
+  .wave-bar:nth-child(11) { animation-delay: 0.4s; }
+  .wave-bar:nth-child(12) { animation-delay: 0.05s; }
+  @keyframes waveAnim {
+    0%, 100% { height: 4px; }
+    50% { height: 28px; }
+  }
+
+  /* Playback row */
+  .playback-row {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: none;
+  }
+  .playback-row.visible { display: block; }
+
+  .playback-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 12px;
+  }
+
+  .playback-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .play-btn {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: none;
+    color: var(--gold);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .play-btn:hover { background: rgba(200,151,58,0.12); }
+  .play-btn.playing {
+    background: var(--gold);
+    color: var(--deep);
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+  }
+  .progress-played {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.1s linear;
+    position: relative;
+  }
+  .progress-played::after {
+    content: '';
+    position: absolute;
+    right: -5px; top: -4px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .play-time {
+    font-size: 0.78rem;
+    color: var(--light);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    min-width: 70px;
+    text-align: right;
+  }
+
+  .export-btn {
+    background: rgba(200,151,58,0.12);
+    border: 1px solid rgba(200,151,58,0.35);
+    color: var(--gold);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .export-btn:hover { background: rgba(200,151,58,0.22); }
+
+  @media print {
+    .speech-header, .speech-actions, .recorder-panel { display: none; }
+    .speech-body { padding: 20px; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1: TOPIC -->
+<div id="screen-topic" class="screen active">
+  <p class="app-subtitle">English Speech Builder</p>
+  <h1 class="app-title">What will you<br>speak about today?</h1>
+  <div class="topic-grid" id="topic-grid"></div>
+</div>
+
+<!-- SCREEN 2: SELECT -->
+<div id="screen-select" class="screen">
+  <div class="select-header">
+    <button class="back-btn" onclick="goBack('select')">←</button>
+    <div class="header-info">
+      <div class="header-topic" id="sel-topic-name"></div>
+      <div class="header-verse" id="sel-verse-ref"></div>
+    </div>
+    <button class="complete-btn" id="complete-btn" onclick="showSpeech()">완성하기 →</button>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="select-body">
+    <div class="verse-card">
+      <div class="verse-label">📖 이번 달 말씀</div>
+      <div class="verse-text" id="sel-verse-text"></div>
+      <div class="verse-ref" id="sel-verse-ref2"></div>
+    </div>
+    <div id="sections-container"></div>
+  </div>
+</div>
+
+<!-- SCREEN 3: SPEECH -->
+<div id="screen-speech" class="screen">
+  <div class="speech-header">
+    <button class="back-btn" onclick="goBack('speech')">←</button>
+    <div class="header-info">
+      <div class="header-topic" id="sp-topic-name"></div>
+      <div class="header-verse" id="sp-verse-ref">완성된 스피치 원고</div>
+    </div>
+  </div>
+  <div class="speech-body">
+    <h2 class="speech-title">My Speech</h2>
+    <div class="speech-meta" id="sp-meta"></div>
+
+    <!-- RECORDER PANEL -->
+    <div class="recorder-panel">
+      <div class="recorder-label">🎙 녹음하기</div>
+      <div class="recorder-main">
+        <button class="rec-btn rec-btn-idle" id="rec-btn" onclick="toggleRecording()">🎙</button>
+        <div class="recorder-info">
+          <div class="rec-status">
+            <div class="rec-dot" id="rec-dot"></div>
+            <span id="rec-status-text">준비됨 — 버튼을 눌러 녹음 시작</span>
+          </div>
+          <div class="rec-timer" id="rec-timer">0:00</div>
+          <div class="waveform" id="waveform">
+            <div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div>
+            <div class="wave-bar"></div><div class="wave-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLAYBACK -->
+      <div class="playback-row" id="playback-row">
+        <div class="playback-label">녹음된 스피치</div>
+        <div class="playback-controls">
+          <button class="play-btn" id="play-btn" onclick="togglePlayback()">▶</button>
+          <div class="progress-track" id="progress-track" onclick="seekAudio(event)">
+            <div class="progress-played" id="progress-played"></div>
+          </div>
+          <div class="play-time" id="play-time">0:00 / 0:00</div>
+          <button class="export-btn" onclick="exportRecording()">⬇ 저장</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="speech-content"></div>
+    <div class="speech-actions">
+      <button class="btn-outline" onclick="goBack('speech')">← 다시 고르기</button>
+      <button class="btn-solid" onclick="window.print()">🖨 인쇄하기</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const TOPICS = [
+  {
+    id: 'david-goliath',
+    icon: '🪨',
+    name: 'David and Goliath',
+    verseRef: '1 Samuel 17:47 (NIV)',
+    verseText: '"All those gathered here will know that it is not by sword or spear that the LORD saves; for the battle is the LORD\'s, and he will give all of you into our hands."',
+    sections: [
+      {
+        num: 1,
+        title: 'Greeting',
+        ko: '인사',
+        sentences: [
+          'Hello everyone.',
+          'Good morning / Good afternoon.',
+          'Today, I\'d like to share a short story from the Bible.',
+          'Thank you for giving me this opportunity to speak.'
+        ]
+      },
+      {
+        num: 2,
+        title: 'Topic Introduction',
+        ko: '주제 소개',
+        sentences: [
+          'Today, my topic is the story of David and Goliath.',
+          'This story teaches us an important lesson about faith.',
+          'David and Goliath is one of the most famous stories in the Bible.',
+          'Through this story, we can learn what true faith looks like.'
+        ]
+      },
+      {
+        num: 3,
+        title: 'Detailed Explanation',
+        ko: '주제 설명',
+        sentences: [
+          'David was much smaller and weaker than Goliath.',
+          'Goliath trusted his strength and weapons.',
+          'David trusted God instead of his own power.',
+          'David\'s faith was shown through his actions, not just his words.'
+        ]
+      },
+      {
+        num: 4,
+        title: 'Personal Opinion',
+        ko: '개인 생각',
+        sentences: [
+          'I think David\'s faith was very brave.',
+          'This story shows that faith is more important than strength.',
+          'I was impressed by David\'s confidence in God.',
+          'In my opinion, real faith requires courage.'
+        ]
+      },
+      {
+        num: 5,
+        title: 'Example or Application',
+        ko: '삶의 적용',
+        sentences: [
+          'We can trust God when we face difficulties.',
+          'Faith means taking action even when we are afraid.',
+          'We can show our faith through our choices every day.',
+          'This story encourages me to act on my faith.'
+        ]
+      },
+      {
+        num: 6,
+        title: 'Summary',
+        ko: '요약',
+        sentences: [
+          'David defeated Goliath through faith.',
+          'The story teaches us that faith must be active.',
+          'True faith is shown by actions.',
+          'Faith in God can overcome fear.'
+        ]
+      },
+      {
+        num: 7,
+        title: 'Closing',
+        ko: '마무리',
+        sentences: [
+          'Thank you for listening.',
+          'That\'s all for my speech.',
+          'I hope you enjoyed my presentation.',
+          'Do you have any questions?'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'the-gospel',
+    icon: '✝️',
+    name: 'The Gospel',
+    verseRef: 'John 3:16 (NIV)',
+    verseText: '"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."',
+    sections: [
+      {
+        num: 1,
+        title: 'Greeting',
+        ko: '인사',
+        sentences: [
+          'Good morning / Good afternoon.',
+          'My name is ________.',
+          "I'm happy to be here today.",
+          'Thank you for giving me this opportunity to speak.',
+          'Today, I want to share an important message from the Bible.',
+          "I'm honored to speak about the Gospel today."
+        ]
+      },
+      {
+        num: 2,
+        title: 'Topic Introduction',
+        ko: '주제 소개',
+        sentences: [
+          'Today, my topic is the Gospel.',
+          'The Gospel means "good news."',
+          'The Gospel is the message of Jesus Christ.',
+          'This message changes our lives.'
+        ]
+      },
+      {
+        num: 3,
+        title: 'The Problem',
+        ko: '인간의 상태',
+        sentences: [
+          'All people have sinned.',
+          'Sin separates us from God.',
+          'We could not save ourselves.',
+          'Without God, we were spiritually lost.'
+        ]
+      },
+      {
+        num: 4,
+        title: "God's Love",
+        ko: '하나님의 사랑',
+        sentences: [
+          'God loved the world so much.',
+          'God sent His Son, Jesus.',
+          'God showed His love while we were still sinners.',
+          'God did not give up on us.'
+        ]
+      },
+      {
+        num: 5,
+        title: 'The Cross and Salvation',
+        ko: '십자가와 구원',
+        sentences: [
+          'Jesus died for our sins.',
+          'Christ took our punishment on the cross.',
+          'Through Jesus, we can receive forgiveness.',
+          'Salvation is a gift from God.'
+        ]
+      },
+      {
+        num: 6,
+        title: 'Response and Application',
+        ko: '우리의 반응',
+        sentences: [
+          'We are called to believe in Jesus.',
+          'Faith means trusting Jesus as Lord.',
+          'We must respond personally to the Gospel.',
+          'This message encourages me to trust God more.'
+        ]
+      },
+      {
+        num: 7,
+        title: 'Summary',
+        ko: '요약',
+        sentences: [
+          'In summary, the Gospel is the good news of salvation.',
+          'Let me briefly remind you of the main message.',
+          "As we have seen, God's love is greater than our sin.",
+          'The cross shows us both justice and mercy.',
+          'Through faith in Jesus, we receive eternal life.',
+          'This is why the Gospel gives us hope.'
+        ]
+      },
+      {
+        num: 8,
+        title: 'Closing',
+        ko: '마무리',
+        sentences: [
+          'Thank you for listening.',
+          "That's all for my speech.",
+          'I hope this message encourages you.',
+          'Do you have any questions?'
+        ]
+      }
+    ]
+  }
+];
+
+let currentTopic = null;
+let selections = {}; // { sectionIndex: Set of sentence indices }
+
+// Build topic grid
+function buildTopicGrid() {
+  const grid = document.getElementById('topic-grid');
+  TOPICS.forEach(topic => {
+    const card = document.createElement('div');
+    card.className = 'topic-card';
+    if (topic.disabled) card.style.opacity = '0.4';
+    card.innerHTML = `
+      <span class="topic-icon">${topic.icon}</span>
+      <div class="topic-name">${topic.name}</div>
+      <div class="topic-verse">${topic.verseRef}</div>
+    `;
+    if (!topic.disabled) {
+      card.onclick = () => selectTopic(topic);
+    }
+    grid.appendChild(card);
+  });
+}
+
+function selectTopic(topic) {
+  currentTopic = topic;
+  selections = {};
+  topic.sections.forEach((_, i) => selections[i] = new Set());
+  buildSelectScreen(topic);
+  showScreen('screen-select');
+}
+
+function buildSelectScreen(topic) {
+  document.getElementById('sel-topic-name').textContent = topic.name;
+  document.getElementById('sel-verse-ref').textContent = topic.verseRef;
+  document.getElementById('sel-verse-text').textContent = topic.verseText;
+  document.getElementById('sel-verse-ref2').textContent = '— ' + topic.verseRef;
+
+  const container = document.getElementById('sections-container');
+  container.innerHTML = '';
+
+  topic.sections.forEach((sec, si) => {
+    const block = document.createElement('div');
+    block.className = 'section-block';
+    block.style.animationDelay = (si * 0.07) + 's';
+
+    const listHTML = sec.sentences.map((s, idx) => `
+      <div class="sentence-item" id="item-${si}-${idx}" onclick="toggleSentence(${si}, ${idx})">
+        <div class="checkbox"></div>
+        <div class="sentence-text">${s}</div>
+      </div>
+    `).join('');
+
+    block.innerHTML = `
+      <div class="section-header">
+        <div class="section-num">${sec.num}</div>
+        <div>
+          <div class="section-title">${sec.title} <span class="section-ko">(${sec.ko})</span></div>
+        </div>
+        <div class="section-hint">1개 이상 선택</div>
+      </div>
+      <div class="sentence-list">${listHTML}</div>
+    `;
+    container.appendChild(block);
+  });
+
+  updateProgress();
+}
+
+function toggleSentence(si, idx) {
+  const set = selections[si];
+  const item = document.getElementById(`item-${si}-${idx}`);
+  if (set.has(idx)) {
+    set.delete(idx);
+    item.classList.remove('selected');
+  } else {
+    set.add(idx);
+    item.classList.add('selected');
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = currentTopic.sections.length;
+  const done = Object.values(selections).filter(s => s.size > 0).length;
+  const pct = (done / total) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('complete-btn').disabled = done < total;
+}
+
+function showSpeech() {
+  const topic = currentTopic;
+  // check all sections have at least one
+  for (let i = 0; i < topic.sections.length; i++) {
+    if (selections[i].size === 0) {
+      showToast(`'${topic.sections[i].title}' 섹션에서 최소 1개를 선택해주세요.`);
+      return;
+    }
+  }
+
+  document.getElementById('sp-topic-name').textContent = topic.name;
+  
+  const totalSentences = Object.values(selections).reduce((a, s) => a + s.size, 0);
+  document.getElementById('sp-meta').textContent = `${topic.sections.length}개 파트 · ${totalSentences}개 문장`;
+
+  const content = document.getElementById('speech-content');
+  content.innerHTML = '';
+
+  topic.sections.forEach((sec, si) => {
+    const chosen = [...selections[si]].sort().map(idx => sec.sentences[idx]);
+    if (chosen.length === 0) return;
+
+    const div = document.createElement('div');
+    div.className = 'speech-section';
+    div.style.animationDelay = (si * 0.08) + 's';
+    div.innerHTML = `
+      <div class="speech-section-label">${sec.num}. ${sec.title} (${sec.ko})</div>
+      <div class="speech-sentences">${chosen.map(s => `<p>${s}</p>`).join('')}</div>
+    `;
+    content.appendChild(div);
+  });
+
+  showScreen('screen-speech');
+  window.scrollTo(0, 0);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goBack(from) {
+  if (from === 'select') {
+    showScreen('screen-topic');
+  } else if (from === 'speech') {
+    if (isRecording) stopRecording();
+    resetPlayback();
+    showScreen('screen-select');
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+buildTopicGrid();
+
+// ── RECORDER (WAV output) ──────────────────────────────
+let mediaRecorder = null;
+let audioChunks = [];
+let wavBlob = null;       // final WAV for playback & export
+let audioContext = null;  // for WAV conversion
+let audioEl = null;
+let recInterval = null;
+let recSeconds = 0;
+let isRecording = false;
+
+function fmtTime(s) {
+  const sec = Math.max(0, Math.floor(s));
+  return Math.floor(sec/60) + ':' + String(sec%60).padStart(2,'0');
+}
+
+// ── WAV encoder (pure JS) ──────────────────────────────
+function encodeWAV(samples, sampleRate) {
+  const buffer = new ArrayBuffer(44 + samples.length * 2);
+  const view = new DataView(buffer);
+  const writeStr = (off, str) => { for (let i=0;i<str.length;i++) view.setUint8(off+i, str.charCodeAt(i)); };
+  writeStr(0, 'RIFF');
+  view.setUint32(4, 36 + samples.length*2, true);
+  writeStr(8, 'WAVE');
+  writeStr(12, 'fmt ');
+  view.setUint32(16, 16, true);   // PCM
+  view.setUint16(20, 1, true);    // PCM format
+  view.setUint16(22, 1, true);    // mono
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * 2, true); // byte rate
+  view.setUint16(32, 2, true);    // block align
+  view.setUint16(34, 16, true);   // bits per sample
+  writeStr(36, 'data');
+  view.setUint32(40, samples.length*2, true);
+  // clamp & write 16-bit PCM
+  let off = 44;
+  for (let i=0; i<samples.length; i++, off+=2) {
+    const s = Math.max(-1, Math.min(1, samples[i]));
+    view.setInt16(off, s < 0 ? s*0x8000 : s*0x7FFF, true);
+  }
+  return new Blob([buffer], { type: 'audio/wav' });
+}
+
+async function convertToWAV(chunks, mimeType) {
+  const raw = new Blob(chunks, { type: mimeType });
+  const arrayBuf = await raw.arrayBuffer();
+  if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const decoded = await audioContext.decodeAudioData(arrayBuf);
+  // mix down to mono
+  const len = decoded.length;
+  const sampleRate = decoded.sampleRate;
+  const mono = new Float32Array(len);
+  for (let ch=0; ch<decoded.numberOfChannels; ch++) {
+    const data = decoded.getChannelData(ch);
+    for (let i=0; i<len; i++) mono[i] += data[i];
+  }
+  if (decoded.numberOfChannels > 1) {
+    for (let i=0; i<len; i++) mono[i] /= decoded.numberOfChannels;
+  }
+  return encodeWAV(mono, sampleRate);
+}
+
+async function toggleRecording() {
+  if (isRecording) {
+    stopRecording();
+  } else {
+    if (wavBlob) {
+      if (!confirm('기존 녹음이 있습니다. 새로 녹음하면 기존 녹음이 삭제됩니다. 계속하시겠습니까?')) return;
+      resetPlayback();
+    }
+    await startRecording();
+  }
+}
+
+async function startRecording() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mimeType = ['audio/webm;codecs=opus','audio/webm','audio/ogg','audio/mp4','']
+      .find(m => !m || MediaRecorder.isTypeSupported(m)) || '';
+    mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+    mediaRecorder.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      document.getElementById('rec-status-text').textContent = 'WAV 변환 중...';
+      try {
+        wavBlob = await convertToWAV(audioChunks, mediaRecorder.mimeType || 'audio/webm');
+        setupPlayback(wavBlob);
+      } catch(e) {
+        // fallback: use raw blob if WAV conversion fails
+        console.warn('WAV conversion failed, using raw:', e);
+        wavBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+        setupPlayback(wavBlob);
+      }
+    };
+
+    mediaRecorder.start(100);
+    isRecording = true;
+    recSeconds = 0;
+
+    document.getElementById('rec-btn').className = 'rec-btn rec-btn-recording';
+    document.getElementById('rec-btn').textContent = '⏹';
+    document.getElementById('rec-dot').classList.add('active');
+    document.getElementById('rec-status-text').textContent = '녹음 중...';
+    document.getElementById('waveform').classList.add('active');
+
+    recInterval = setInterval(() => {
+      recSeconds++;
+      document.getElementById('rec-timer').textContent = fmtTime(recSeconds);
+    }, 1000);
+
+  } catch (err) {
+    showToast('마이크 권한이 필요합니다. 브라우저 설정에서 허용해주세요.');
+    console.error(err);
+  }
+}
+
+function stopRecording() {
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+  clearInterval(recInterval);
+  isRecording = false;
+
+  document.getElementById('rec-btn').className = 'rec-btn rec-btn-idle';
+  document.getElementById('rec-btn').textContent = '🎙';
+  document.getElementById('rec-dot').classList.remove('active');
+  document.getElementById('rec-status-text').textContent = '변환 중...';
+  document.getElementById('waveform').classList.remove('active');
+}
+
+function setupPlayback(blob) {
+  const url = URL.createObjectURL(blob);
+  audioEl = new Audio(url);
+
+  audioEl.onended = () => {
+    document.getElementById('play-btn').textContent = '▶';
+    document.getElementById('play-btn').classList.remove('playing');
+    document.getElementById('progress-played').style.width = '0%';
+  };
+
+  audioEl.ontimeupdate = () => {
+    if (!audioEl.duration) return;
+    const pct = (audioEl.currentTime / audioEl.duration) * 100;
+    document.getElementById('progress-played').style.width = pct + '%';
+    document.getElementById('play-time').textContent =
+      fmtTime(audioEl.currentTime) + ' / ' + fmtTime(audioEl.duration);
+  };
+
+  audioEl.onloadedmetadata = () => {
+    document.getElementById('play-time').textContent =
+      '0:00 / ' + fmtTime(audioEl.duration);
+  };
+
+  document.getElementById('playback-row').classList.add('visible');
+  document.getElementById('rec-status-text').textContent = '녹음 완료 — 아래에서 재생하세요 (WAV)';
+}
+
+function togglePlayback() {
+  if (!audioEl) return;
+  if (audioEl.paused) {
+    audioEl.play();
+    document.getElementById('play-btn').textContent = '⏸';
+    document.getElementById('play-btn').classList.add('playing');
+  } else {
+    audioEl.pause();
+    document.getElementById('play-btn').textContent = '▶';
+    document.getElementById('play-btn').classList.remove('playing');
+  }
+}
+
+function seekAudio(e) {
+  if (!audioEl || !audioEl.duration) return;
+  const rect = document.getElementById('progress-track').getBoundingClientRect();
+  const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  audioEl.currentTime = ratio * audioEl.duration;
+}
+
+function exportRecording() {
+  if (!wavBlob) return;
+  const isWav = wavBlob.type === 'audio/wav';
+  const ext = isWav ? 'wav' : (wavBlob.type.includes('ogg') ? 'ogg' : wavBlob.type.includes('mp4') ? 'm4a' : 'webm');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(wavBlob);
+  const topic = currentTopic ? currentTopic.name.replace(/\s+/g, '_') : 'speech';
+  a.download = 'my_speech_' + topic + '.' + ext;
+  a.click();
+  showToast('녹음 파일을 저장했습니다! (.wav)');
+}
+
+function resetPlayback() {
+  if (audioEl) { audioEl.pause(); audioEl = null; }
+  wavBlob = null;
+  document.getElementById('playback-row').classList.remove('visible');
+  document.getElementById('progress-played').style.width = '0%';
+  document.getElementById('play-time').textContent = '0:00 / 0:00';
+  document.getElementById('play-btn').textContent = '▶';
+  document.getElementById('play-btn').classList.remove('playing');
+  document.getElementById('rec-timer').textContent = '0:00';
+  document.getElementById('rec-status-text').textContent = '준비됨 — 버튼을 눌러 녹음 시작';
+}
+
+</script>
+</body>
+</html>
