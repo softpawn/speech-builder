@@ -446,8 +446,19 @@
 
   .speech-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     margin-top: 50px;
+  }
+  .speech-actions .btn-shadowing {
+    flex: 1 1 100%;
+    order: -1;
+  }
+  @media (min-width: 520px) {
+    .speech-actions .btn-shadowing {
+      flex: 1 1 auto;
+      order: 0;
+    }
   }
 
   .btn-outline {
@@ -1555,6 +1566,7 @@ async function convertToWAV(chunks, mimeType) {
   const raw = new Blob(chunks, { type: mimeType });
   const arrayBuf = await raw.arrayBuffer();
   if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioContext.state === 'suspended') await audioContext.resume();
   const decoded = await audioContext.decodeAudioData(arrayBuf);
   // mix down to mono
   const len = decoded.length;
@@ -1641,6 +1653,7 @@ function stopRecording() {
 function setupPlayback(blob) {
   const url = URL.createObjectURL(blob);
   audioEl = new Audio(url);
+  audioEl.preload = 'auto';
 
   audioEl.onended = () => {
     document.getElementById('play-btn').textContent = '▶';
@@ -1668,6 +1681,7 @@ function setupPlayback(blob) {
 function togglePlayback() {
   if (!audioEl) return;
   if (audioEl.paused) {
+    if (audioContext && audioContext.state === 'suspended') audioContext.resume();
     audioEl.play();
     document.getElementById('play-btn').textContent = '⏸';
     document.getElementById('play-btn').classList.add('playing');
@@ -1904,12 +1918,14 @@ function stopShRec() {
 function shSetupCompare() {
   const url = URL.createObjectURL(shWavBlob);
   shAudioEl = new Audio(url);
+  shAudioEl.preload = 'auto';
   document.getElementById('sh-compare-btns').style.display = 'flex';
   document.getElementById('sh-compare-placeholder').style.display = 'none';
 }
 
 function playMyRec() {
   if (!shAudioEl) return;
+  if (audioContext && audioContext.state === 'suspended') audioContext.resume();
   shAudioEl.currentTime = 0;
   shAudioEl.play();
 }
