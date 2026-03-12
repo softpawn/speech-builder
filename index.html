@@ -725,6 +725,272 @@
     .speech-header, .speech-actions, .recorder-panel { display: none; }
     .speech-body { padding: 20px; max-width: 100%; }
   }
+
+  /* ── SHADOWING SCREEN ── */
+  .sh-header {
+    background: var(--deep);
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(200,151,58,0.2);
+  }
+
+  .sh-progress-bar {
+    height: 3px;
+    background: rgba(61,107,79,0.2);
+  }
+  .sh-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), #5a9e72);
+    transition: width 0.4s ease;
+  }
+
+  .sh-progress-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .sh-body {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  /* Speed slider */
+  .sh-speed-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    background: #fff;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 1px solid #e8e0d0;
+  }
+  .sh-speed-label { font-size: 1.1rem; }
+  .sh-speed-slider {
+    flex: 1;
+    accent-color: var(--green);
+    height: 4px;
+    cursor: pointer;
+  }
+  .sh-speed-val {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--green);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* Sentence card */
+  .sh-card {
+    background: var(--deep);
+    border-radius: 20px;
+    padding: 32px 28px;
+    margin-bottom: 28px;
+    position: relative;
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    box-shadow: 0 8px 32px rgba(44,36,22,0.15);
+  }
+
+  .sh-section-badge {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+
+  .sh-sentence {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+    color: #fff;
+    line-height: 1.6;
+  }
+
+  /* Steps */
+  .sh-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .sh-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px 18px;
+    border: 2px solid #e8e0d0;
+    transition: border-color 0.2s;
+  }
+  .sh-step.active { border-color: var(--green); }
+
+  .sh-step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #e8e0d0;
+    color: var(--light);
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .sh-step-num.active-step {
+    background: var(--green);
+    color: #fff;
+  }
+  .sh-step-num.done-step {
+    background: var(--gold);
+    color: var(--deep);
+  }
+
+  .sh-step-content { flex: 1; }
+  .sh-step-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--light);
+    margin-bottom: 10px;
+  }
+
+  /* Action buttons */
+  .sh-action-btn {
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .listen-btn {
+    background: var(--deep);
+    color: var(--gold);
+    border: 2px solid rgba(200,151,58,0.3);
+  }
+  .listen-btn:hover { background: var(--mid); }
+  .listen-btn.playing { background: var(--gold); color: var(--deep); }
+
+  .record-btn {
+    background: var(--red);
+    color: #fff;
+  }
+  .record-btn:hover { opacity: 0.88; }
+  .record-btn.recording {
+    animation: recPulse 1.4s ease-in-out infinite;
+  }
+
+  .sh-timer {
+    font-size: 0.82rem;
+    color: var(--red);
+    font-weight: 700;
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .sh-compare-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tts-play-btn {
+    background: var(--deep);
+    color: var(--gold);
+    border: 2px solid rgba(200,151,58,0.3);
+  }
+  .tts-play-btn:hover { background: var(--mid); }
+
+  .my-play-btn {
+    background: var(--green);
+    color: #fff;
+  }
+  .my-play-btn:hover { opacity: 0.88; }
+
+  .save-btn {
+    background: rgba(200,151,58,0.12);
+    color: var(--gold);
+    border: 1px solid rgba(200,151,58,0.35);
+  }
+  .save-btn:hover { background: rgba(200,151,58,0.22); }
+
+  .sh-compare-placeholder {
+    font-size: 0.8rem;
+    color: #bbb;
+    font-style: italic;
+  }
+
+  /* Navigation */
+  .sh-nav {
+    display: flex;
+    gap: 12px;
+  }
+  .sh-nav-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: none;
+    border: 2px solid #e8e0d0;
+    color: var(--mid);
+  }
+  .sh-nav-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .sh-nav-next {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+  }
+  .sh-nav-next:hover { opacity: 0.88; background: var(--green); }
+  .sh-nav-next:disabled { background: #ccc; border-color: #ccc; cursor: not-allowed; }
+
+  /* Shadowing button in speech screen */
+  .btn-shadowing {
+    flex: 1;
+    background: var(--green);
+    border: 2px solid var(--green);
+    color: #fff;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-shadowing:hover { opacity: 0.88; }
+
+  /* Topic card shadowing entry */
+  .shadowing-entry {
+    margin-top: 10px;
+    font-size: 0.76rem;
+    color: var(--green);
+    cursor: pointer;
+    text-decoration: underline;
+    display: block;
+  }
+
 </style>
 </head>
 <body>
@@ -809,7 +1075,83 @@
     <div id="speech-content"></div>
     <div class="speech-actions">
       <button class="btn-outline" onclick="goBack('speech')">← 다시 고르기</button>
+      <button class="btn-shadowing" onclick="startShadowing('speech')">🎧 셰도잉 연습</button>
       <button class="btn-solid" onclick="window.print()">🖨 인쇄하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 4: SHADOWING -->
+<div id="screen-shadowing" class="screen">
+  <div class="sh-header">
+    <button class="back-btn" onclick="exitShadowing()">←</button>
+    <div class="header-info">
+      <div class="header-topic" id="sh-topic-name"></div>
+      <div class="header-verse" id="sh-mode-label">셰도잉 모드</div>
+    </div>
+    <div class="sh-progress-text" id="sh-progress-text">1 / 1</div>
+  </div>
+  <div class="sh-progress-bar"><div class="sh-progress-fill" id="sh-progress-fill"></div></div>
+
+  <div class="sh-body">
+    <!-- Speed control -->
+    <div class="sh-speed-row">
+      <span class="sh-speed-label">🐢</span>
+      <input type="range" id="sh-speed" min="0.6" max="1.2" step="0.1" value="0.8" class="sh-speed-slider" oninput="updateSpeed(this.value)">
+      <span class="sh-speed-label">🐇</span>
+      <span class="sh-speed-val" id="sh-speed-val">0.8x</span>
+    </div>
+
+    <!-- Sentence card -->
+    <div class="sh-card">
+      <div class="sh-section-badge" id="sh-section-badge"></div>
+      <div class="sh-sentence" id="sh-sentence"></div>
+    </div>
+
+    <!-- Step buttons -->
+    <div class="sh-steps">
+      <!-- Step 1: Listen -->
+      <div class="sh-step" id="sh-step-listen">
+        <div class="sh-step-num active-step">1</div>
+        <div class="sh-step-content">
+          <div class="sh-step-title">원어민 듣기</div>
+          <button class="sh-action-btn listen-btn" id="sh-listen-btn" onclick="playSentenceTTS()">
+            <span id="sh-listen-icon">🔊</span> 듣기
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Record -->
+      <div class="sh-step" id="sh-step-record">
+        <div class="sh-step-num">2</div>
+        <div class="sh-step-content">
+          <div class="sh-step-title">따라 말하기</div>
+          <button class="sh-action-btn record-btn" id="sh-rec-btn" onclick="toggleShRec()">
+            <span id="sh-rec-icon">🎙</span> <span id="sh-rec-label">녹음 시작</span>
+          </button>
+          <div class="sh-timer" id="sh-timer" style="display:none">0:00</div>
+        </div>
+      </div>
+
+      <!-- Step 3: Compare -->
+      <div class="sh-step" id="sh-step-compare">
+        <div class="sh-step-num">3</div>
+        <div class="sh-step-content">
+          <div class="sh-step-title">내 발음 비교</div>
+          <div class="sh-compare-btns" id="sh-compare-btns" style="display:none">
+            <button class="sh-action-btn tts-play-btn" onclick="playSentenceTTS()">🔊 원어민</button>
+            <button class="sh-action-btn my-play-btn" onclick="playMyRec()">▶ 내 녹음</button>
+            <button class="sh-action-btn save-btn" onclick="saveMyRec()">⬇ 저장</button>
+          </div>
+          <div class="sh-compare-placeholder" id="sh-compare-placeholder">녹음 후 활성화</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="sh-nav">
+      <button class="sh-nav-btn" id="sh-prev-btn" onclick="shNavigate(-1)">← 이전</button>
+      <button class="sh-nav-btn sh-nav-next" id="sh-next-btn" onclick="shNavigate(1)">다음 →</button>
     </div>
   </div>
 </div>
@@ -1024,6 +1366,17 @@ function buildTopicGrid() {
     `;
     if (!topic.disabled) {
       card.onclick = () => selectTopic(topic);
+      const shLink = document.createElement('span');
+      shLink.className = 'shadowing-entry';
+      shLink.textContent = '🎧 전체 문장 셰도잉';
+      shLink.onclick = (e) => {
+        e.stopPropagation();
+        currentTopic = topic;
+        selections = {};
+        topic.sections.forEach((_, i) => selections[i] = new Set());
+        startShadowing('all');
+      };
+      card.appendChild(shLink);
     }
     grid.appendChild(card);
   });
@@ -1355,6 +1708,274 @@ function resetPlayback() {
   document.getElementById('rec-timer').textContent = '0:00';
   document.getElementById('rec-status-text').textContent = '준비됨 — 버튼을 눌러 녹음 시작';
 }
+
+
+// ── SHADOWING MODE ────────────────────────────────────
+let shSentences = [];   // [{text, sectionTitle, sectionNum}]
+let shIndex = 0;
+let shSpeed = 0.8;
+let shRecorder = null;
+let shChunks = [];
+let shWavBlob = null;
+let shAudioEl = null;
+let shRecInterval = null;
+let shRecSeconds = 0;
+let shIsRecording = false;
+let shTtsUtterance = null;
+
+// Build sentence list from topic (all sentences) or from selections (speech sentences)
+function startShadowing(mode) {
+  if (!currentTopic) return;
+
+  shSentences = [];
+
+  if (mode === 'speech') {
+    // Only sentences selected for the speech
+    currentTopic.sections.forEach((sec, si) => {
+      [...selections[si]].sort().forEach(idx => {
+        shSentences.push({
+          text: sec.sentences[idx],
+          sectionTitle: sec.title,
+          sectionKo: sec.ko,
+          sectionNum: sec.num
+        });
+      });
+    });
+  } else {
+    // All sentences in the worksheet
+    currentTopic.sections.forEach(sec => {
+      sec.sentences.forEach(s => {
+        shSentences.push({
+          text: s,
+          sectionTitle: sec.title,
+          sectionKo: sec.ko,
+          sectionNum: sec.num
+        });
+      });
+    });
+  }
+
+  if (shSentences.length === 0) { showToast('문장이 없습니다.'); return; }
+
+  shIndex = 0;
+  shSpeed = parseFloat(document.getElementById('sh-speed')?.value || 0.8);
+  document.getElementById('sh-topic-name').textContent = currentTopic.name;
+  document.getElementById('sh-mode-label').textContent =
+    mode === 'speech' ? '내 스피치 문장 셰도잉' : '전체 문장 셰도잉';
+
+  shResetRecState();
+  shRenderSentence();
+  showScreen('screen-shadowing');
+}
+
+function shRenderSentence() {
+  const s = shSentences[shIndex];
+  const total = shSentences.length;
+
+  document.getElementById('sh-sentence').textContent = s.text;
+  document.getElementById('sh-section-badge').textContent =
+    s.sectionNum + '. ' + s.sectionTitle + ' (' + s.sectionKo + ')';
+  document.getElementById('sh-progress-text').textContent = (shIndex + 1) + ' / ' + total;
+  document.getElementById('sh-progress-fill').style.width = ((shIndex + 1) / total * 100) + '%';
+
+  // Nav buttons
+  document.getElementById('sh-prev-btn').disabled = shIndex === 0;
+  const nextBtn = document.getElementById('sh-next-btn');
+  nextBtn.textContent = shIndex === total - 1 ? '완료 ✓' : '다음 →';
+
+  // Reset step states
+  shResetRecState();
+  shSetStepActive(1);
+}
+
+function shSetStepActive(stepNum) {
+  [1, 2, 3].forEach(n => {
+    const step = document.getElementById('sh-step-' + ['listen','record','compare'][n-1]);
+    const numEl = step?.querySelector('.sh-step-num');
+    if (!step || !numEl) return;
+    step.classList.remove('active');
+    numEl.classList.remove('active-step', 'done-step');
+    if (n < stepNum) numEl.classList.add('done-step');
+    else if (n === stepNum) { step.classList.add('active'); numEl.classList.add('active-step'); }
+  });
+}
+
+function updateSpeed(val) {
+  shSpeed = parseFloat(val);
+  document.getElementById('sh-speed-val').textContent = shSpeed.toFixed(1) + 'x';
+}
+
+// ── TTS ──
+function playSentenceTTS() {
+  if (!window.speechSynthesis) { showToast('이 브라우저는 TTS를 지원하지 않습니다.'); return; }
+  speechSynthesis.cancel();
+
+  const btn = document.getElementById('sh-listen-btn');
+  const icon = document.getElementById('sh-listen-icon');
+  btn.classList.add('playing');
+  icon.textContent = '🔊';
+
+  shTtsUtterance = new SpeechSynthesisUtterance(shSentences[shIndex].text);
+  shTtsUtterance.lang = 'en-US';
+  shTtsUtterance.rate = shSpeed;
+
+  // Try to pick a natural English voice
+  const voices = speechSynthesis.getVoices();
+  const preferred = voices.find(v => v.lang === 'en-US' && v.name.includes('Samantha'))
+    || voices.find(v => v.lang === 'en-US' && !v.name.includes('Google'))
+    || voices.find(v => v.lang.startsWith('en'));
+  if (preferred) shTtsUtterance.voice = preferred;
+
+  shTtsUtterance.onend = () => {
+    btn.classList.remove('playing');
+    icon.textContent = '🔊';
+    shSetStepActive(2);
+  };
+  shTtsUtterance.onerror = () => { btn.classList.remove('playing'); };
+
+  speechSynthesis.speak(shTtsUtterance);
+  shSetStepActive(1);
+}
+
+// ── RECORDING ──
+async function toggleShRec() {
+  if (shIsRecording) {
+    stopShRec();
+  } else {
+    await startShRec();
+  }
+}
+
+async function startShRec() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mimeType = ['audio/webm;codecs=opus','audio/webm','audio/ogg','audio/mp4','']
+      .find(m => !m || MediaRecorder.isTypeSupported(m)) || '';
+    shRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
+    shChunks = [];
+
+    shRecorder.ondataavailable = e => { if (e.data.size > 0) shChunks.push(e.data); };
+    shRecorder.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      try {
+        shWavBlob = await convertToWAV(shChunks, shRecorder.mimeType || 'audio/webm');
+      } catch(e) {
+        shWavBlob = new Blob(shChunks, { type: shRecorder.mimeType || 'audio/webm' });
+      }
+      shSetupCompare();
+    };
+
+    shRecorder.start(100);
+    shIsRecording = true;
+    shRecSeconds = 0;
+
+    const btn = document.getElementById('sh-rec-btn');
+    btn.classList.add('recording');
+    document.getElementById('sh-rec-icon').textContent = '⏹';
+    document.getElementById('sh-rec-label').textContent = '정지';
+    const timer = document.getElementById('sh-timer');
+    timer.style.display = 'block';
+    timer.textContent = '0:00';
+
+    shRecInterval = setInterval(() => {
+      shRecSeconds++;
+      timer.textContent = fmtTime(shRecSeconds);
+    }, 1000);
+
+    shSetStepActive(2);
+  } catch(err) {
+    showToast('마이크 권한이 필요합니다.');
+    console.error(err);
+  }
+}
+
+function stopShRec() {
+  if (shRecorder && shRecorder.state !== 'inactive') shRecorder.stop();
+  clearInterval(shRecInterval);
+  shIsRecording = false;
+
+  const btn = document.getElementById('sh-rec-btn');
+  btn.classList.remove('recording');
+  document.getElementById('sh-rec-icon').textContent = '🎙';
+  document.getElementById('sh-rec-label').textContent = '다시 녹음';
+  shSetStepActive(3);
+}
+
+function shSetupCompare() {
+  const url = URL.createObjectURL(shWavBlob);
+  shAudioEl = new Audio(url);
+  document.getElementById('sh-compare-btns').style.display = 'flex';
+  document.getElementById('sh-compare-placeholder').style.display = 'none';
+}
+
+function playMyRec() {
+  if (!shAudioEl) return;
+  shAudioEl.currentTime = 0;
+  shAudioEl.play();
+}
+
+function saveMyRec() {
+  if (!shWavBlob) return;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(shWavBlob);
+  const sentNum = shIndex + 1;
+  const topic = currentTopic ? currentTopic.name.replace(/\s+/g,'_') : 'speech';
+  a.download = 'shadowing_' + topic + '_s' + sentNum + '.wav';
+  a.click();
+  showToast('문장 ' + sentNum + ' 녹음을 저장했습니다!');
+}
+
+function shResetRecState() {
+  if (shIsRecording) { stopShRec(); }
+  if (shAudioEl) { shAudioEl.pause(); shAudioEl = null; }
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  clearInterval(shRecInterval);
+  shIsRecording = false;
+  shWavBlob = null;
+  shRecSeconds = 0;
+
+  const btn = document.getElementById('sh-rec-btn');
+  if (btn) {
+    btn.classList.remove('recording');
+    document.getElementById('sh-rec-icon').textContent = '🎙';
+    document.getElementById('sh-rec-label').textContent = '녹음 시작';
+  }
+  const timer = document.getElementById('sh-timer');
+  if (timer) { timer.style.display = 'none'; timer.textContent = '0:00'; }
+  const compareBtns = document.getElementById('sh-compare-btns');
+  if (compareBtns) compareBtns.style.display = 'none';
+  const placeholder = document.getElementById('sh-compare-placeholder');
+  if (placeholder) placeholder.style.display = 'block';
+  const listenBtn = document.getElementById('sh-listen-btn');
+  if (listenBtn) listenBtn.classList.remove('playing');
+}
+
+function shNavigate(dir) {
+  const newIdx = shIndex + dir;
+  if (newIdx >= shSentences.length) {
+    showToast('🎉 셰도잉 완료! 수고하셨습니다.');
+    exitShadowing();
+    return;
+  }
+  if (newIdx < 0) return;
+  shIndex = newIdx;
+  shRenderSentence();
+}
+
+function exitShadowing() {
+  shResetRecState();
+  // Return to where we came from
+  if (shSentences.length > 0 && selections && Object.values(selections).some(s => s.size > 0)) {
+    showScreen('screen-speech');
+  } else {
+    showScreen('screen-select');
+  }
+}
+
+// Preload voices on iOS (must be triggered by user gesture)
+window.addEventListener('touchstart', () => {
+  if (window.speechSynthesis) speechSynthesis.getVoices();
+}, { once: true });
 
 </script>
 </body>
